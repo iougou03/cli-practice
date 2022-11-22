@@ -9,6 +9,9 @@ program.version('0.0.1');
 
 const octokit = new Octokit({ auth: GITHUB_ACCESS_TOKEN });
 
+const OWNER = 'iougou03';
+const REPOSITORY = 'cli-practice';
+
 program
   .command('me')
   .description('Check my profile')
@@ -25,8 +28,8 @@ program
   .description('list all arguments')
   .action(async () => {
     const result = await octokit.rest.issues.listForRepo({
-      owner: 'iougou03',
-      repo: 'cli-practice',
+      owner: OWNER,
+      repo: REPOSITORY,
       labels: 'bug'
     });
 
@@ -44,6 +47,18 @@ program
     })
 
   });
+
+program
+  .command('check-prs')
+  .description('Check pull request status')
+  .action(async () => {
+    const result = await octokit.rest.pulls.list({
+      owner: OWNER,
+      repo: REPOSITORY
+    })
+
+    console.log(result.data);
+  })
 
 // program
 //     .option('-d, --debug', 'default extra debugging')
